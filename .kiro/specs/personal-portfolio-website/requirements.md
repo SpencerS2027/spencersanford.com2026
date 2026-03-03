@@ -25,8 +25,8 @@ This document specifies the requirements for spencersanford.com, a personal port
 
 #### Acceptance Criteria
 
-0. The Portfolio_Website SHALL innovate on conventional website while still adhering to web standards
-1. The Technology section SHALL 
+0. The Portfolio_Website SHALL innovate on conventional websites while still adhering to web standards
+1. The Technology section SHALL include reports of how much load this website takes to self host. It will be a project later on to self-host this website and make it extremely cheap
 
 ### Requirement 1: Display Professional Experience
 
@@ -112,7 +112,7 @@ This document specifies the requirements for spencersanford.com, a personal port
 2. THE Portfolio_Website SHALL define all spacing values using CSS custom properties
 3. THE Portfolio_Website SHALL define all typography styles using CSS custom properties
 4. THE Portfolio_Website SHALL apply consistent styling to all similar elements across pages
-5. THE Portfolio_Website SHALL use a maximum of 3 font families throughout the site
+5. THE Portfolio_Website SHALL use of at most 3 font families throughout the site
 
 ### Requirement 8: Support Static Deployment
 
@@ -140,7 +140,7 @@ This document specifies the requirements for spencersanford.com, a personal port
 
 ### Requirement 10: Enable Content Updates
 
-**User Story:** As the website owner, I want to easily update content, so that I can keep my portfolio current without extensive code changes.
+**User Story:** As the website owner, I want to easily update content, so that I can keep my portfolio current, add to artistic projects, and show new experience without extensive code changes.
 
 #### Acceptance Criteria
 
