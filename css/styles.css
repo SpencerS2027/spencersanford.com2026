@@ -1,0 +1,562 @@
+/* Main Stylesheet for Spencer Sanford Portfolio Website */
+
+/* CSS Custom Properties - Design Tokens */
+:root {
+  /* Colors */
+  /* All color combinations meet WCAG AA standards (4.5:1 contrast ratio for normal text) */
+  /* Primary text (#212529) on white: 16.1:1 */
+  /* Secondary text (#5a6268) on white: 7.0:1 */
+  /* Primary color (#0066cc) on white: 4.5:1 */
+  --color-primary: #0066cc;
+  --color-secondary: #5a6268;
+  --color-background: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-text: #212529;
+  --color-text-secondary: #5a6268;
+  --color-border: #dee2e6;
+  --color-focus: #0066cc;
+  
+  /* Typography */
+  --font-primary: 'Georgia', serif;
+  --font-secondary: 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Courier New', monospace;
+  
+  --font-size-base: 16px;
+  --font-size-small: 14px;
+  --font-size-large: 18px;
+  --font-size-h1: 36px;
+  --font-size-h2: 28px;
+  --font-size-h3: 22px;
+  --font-size-h4: 18px;
+  
+  --line-height-base: 1.6;
+  --line-height-heading: 1.2;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  
+  /* Layout */
+  --max-width: 1200px;
+  --nav-height: 60px;
+  --section-padding: var(--spacing-xxl);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Borders */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+}
+
+/* Base Styles */
+
+/* Skip to main content link (for keyboard navigation) */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background-color: var(--color-primary);
+  color: var(--color-background);
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-decoration: none;
+  border-radius: 0 0 var(--border-radius-sm) 0;
+  z-index: 2000;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Reset and Box Sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body Typography and Layout */
+body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  margin: 0;
+  padding: 0;
+}
+
+/* Heading Styles */
+h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-heading);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-lg);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-heading);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-heading);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+h4 {
+  font-size: var(--font-size-h4);
+  line-height: var(--line-height-heading);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Content Section Layout */
+.content-section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding);
+}
+
+/* Hero Section Styles */
+.hero {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xxl) var(--spacing-lg);
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle animated background pattern */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(90deg, rgba(0, 102, 204, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(0, 102, 204, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: heroPatternSlide 20s linear infinite;
+  opacity: 0;
+  animation: heroPatternFade 1s ease 0.5s forwards, heroPatternSlide 20s linear infinite;
+}
+
+@keyframes heroPatternFade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes heroPatternSlide {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+.hero-content {
+  max-width: 800px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--spacing-md);
+  opacity: 0;
+  animation: heroFadeInUp 0.8s ease forwards;
+}
+
+.hero-title-line {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-family: var(--font-secondary);
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  color: var(--color-text-secondary);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0;
+  animation: heroFadeInUp 0.8s ease 0.2s forwards;
+}
+
+.hero-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  margin: 0 auto var(--spacing-lg);
+  opacity: 0;
+  animation: heroExpand 0.8s ease 0.4s forwards;
+}
+
+@keyframes heroExpand {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 60px;
+    opacity: 1;
+  }
+}
+
+.hero-description {
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  color: var(--color-text);
+  line-height: var(--line-height-base);
+  max-width: 600px;
+  margin: 0 auto;
+  opacity: 0;
+  animation: heroFadeInUp 0.8s ease 0.6s forwards;
+}
+
+@keyframes heroFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Navigation Component Styles */
+.main-nav {
+  position: sticky;
+  top: 0;
+  height: var(--nav-height);
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  list-style: none;
+  gap: var(--spacing-lg);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.nav-link {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  text-decoration: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+}
+
+.nav-link:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.nav-link[aria-current="page"] {
+  color: var(--color-primary);
+  font-weight: 600;
+  background-color: var(--color-surface);
+}
+
+/* Technology Section Styles */
+.tech-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.tech-item {
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.tech-item h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.tech-item p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.tech-item p:last-child {
+  margin-bottom: 0;
+}
+
+/* Experience Section Styles */
+.experience-category {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.experience-category:last-child {
+  margin-bottom: 0;
+}
+
+.experience-category h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.experience-list {
+  list-style: none;
+}
+
+.experience-item {
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.experience-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.experience-title {
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.experience-date {
+  display: block;
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-bottom: var(--spacing-sm);
+}
+
+.experience-description {
+  color: var(--color-text);
+  line-height: var(--line-height-base);
+}
+
+/* Art Portfolio Section Styles */
+.art-category {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.art-category:last-child {
+  margin-bottom: 0;
+}
+
+.art-category h3 {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.art-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.art-item {
+  background-color: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.art-item h4 {
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.art-meta {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-bottom: var(--spacing-md);
+}
+
+.art-excerpt {
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+  line-height: var(--line-height-base);
+}
+
+.read-more {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.read-more:hover {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+.read-more:focus {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.read-more:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.art-full-content {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.art-full-content p {
+  margin-bottom: var(--spacing-md);
+  line-height: var(--line-height-base);
+}
+
+.art-full-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Visual Art Styles */
+figure.art-item {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+figure.art-item picture {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--border-radius-md);
+}
+
+figure.art-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--border-radius-md);
+  transition: transform var(--transition-base);
+}
+
+figure.art-item img:hover {
+  transform: scale(1.02);
+}
+
+figure.art-item img:focus {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+figure.art-item img:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+figcaption {
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-style: italic;
+}
+
+/* Accessibility - Focus Indicators */
+/* Ensure all interactive elements have visible focus indicators */
+
+/* Remove default outline and add custom focus styles */
+*:focus {
+  outline: none;
+}
+
+/* Add visible focus indicators for keyboard navigation */
+*:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Specific focus styles for links */
+a:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-sm);
+}
+
+/* Specific focus styles for buttons */
+button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Ensure focus is visible on images (for lazy-loaded images) */
+img:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* High contrast focus for navigation links */
+.nav-link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  background-color: var(--color-surface);
+}

@@ -1,0 +1,307 @@
+/* Responsive Layout Styles */
+/* Media queries for different breakpoints: mobile (<768px), tablet (768px-1024px), desktop (>1024px) */
+
+/* Mobile Base Styles (<768px) */
+/* Mobile-first approach: these are the default styles */
+
+/* Hero Section - Mobile */
+.hero {
+  min-height: 60vh;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.hero-content {
+  padding: 0 var(--spacing-sm);
+}
+
+/* Content Section - Mobile Padding */
+.content-section {
+  padding: var(--spacing-lg);
+}
+
+/* Grid Layouts - Single Column for Mobile */
+.art-grid,
+.tech-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+/* Typography - Mobile Font Sizes */
+body {
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+/* Navigation - Mobile Accessibility */
+.main-nav {
+  height: 56px;
+}
+
+.nav-list {
+  gap: var(--spacing-sm);
+  padding: 0 var(--spacing-sm);
+}
+
+.nav-link {
+  font-size: 14px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+/* Experience List - Mobile Spacing */
+.experience-list {
+  list-style: none;
+  padding: 0;
+}
+
+.experience-item {
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.experience-item:last-child {
+  border-bottom: none;
+}
+
+.experience-category {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Art Items - Mobile Spacing */
+.art-item {
+  padding: var(--spacing-md);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+}
+
+.art-meta {
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.art-excerpt {
+  margin-bottom: var(--spacing-md);
+}
+
+.read-more {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-small);
+  color: var(--color-primary);
+  background: none;
+  border: 1px solid var(--color-primary);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.read-more:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.read-more:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.art-full-content {
+  margin-top: var(--spacing-md);
+}
+
+.art-full-content p {
+  margin-bottom: var(--spacing-md);
+}
+
+/* Tech Items - Mobile Spacing */
+.tech-item {
+  padding: var(--spacing-md);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-md);
+}
+
+.tech-item h3 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.tech-item p {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Visual Art Figures - Mobile */
+.art-item figure,
+.art-item img {
+  width: 100%;
+  height: auto;
+}
+
+.art-item figcaption {
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-small);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* Tablet Styles (768px - 1024px) */
+@media (min-width: 768px) {
+  /* Hero Section - Tablet */
+  .hero {
+    min-height: 65vh;
+    padding: var(--spacing-xxl) var(--spacing-lg);
+  }
+  
+  /* Content Section - Increased Padding */
+  .content-section {
+    padding: var(--spacing-xl);
+  }
+  
+  /* Grid Layouts - 2 Columns */
+  .art-grid,
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+  }
+  
+  /* Typography - Larger Font Sizes */
+  body {
+    font-size: 16px;
+  }
+  
+  h1 {
+    font-size: 32px;
+  }
+  
+  h2 {
+    font-size: 26px;
+  }
+  
+  h3 {
+    font-size: 21px;
+  }
+  
+  h4 {
+    font-size: 18px;
+  }
+  
+  /* Navigation - Tablet Spacing */
+  .main-nav {
+    height: 60px;
+  }
+  
+  .nav-list {
+    gap: var(--spacing-md);
+    padding: 0 var(--spacing-md);
+  }
+  
+  .nav-link {
+    font-size: 16px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  /* Experience Items - Tablet Spacing */
+  .experience-item {
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+  }
+  
+  /* Art Items - Tablet Spacing */
+  .art-item {
+    padding: var(--spacing-lg);
+  }
+  
+  /* Tech Items - Tablet Spacing */
+  .tech-item {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* Desktop Styles (>1024px) */
+@media (min-width: 1024px) {
+  /* Hero Section - Desktop */
+  .hero {
+    min-height: 70vh;
+    padding: var(--spacing-xxl) var(--spacing-xl);
+  }
+  
+  /* Content Section - Max Width with Auto Margins */
+  .content-section {
+    padding: var(--spacing-xxl);
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  
+  /* Art Grid - 3 Columns */
+  .art-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+  }
+  
+  /* Tech Grid - 3 Columns */
+  .tech-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+  }
+  
+  /* Typography - Desktop Font Sizes */
+  body {
+    font-size: var(--font-size-base);
+  }
+  
+  h1 {
+    font-size: var(--font-size-h1);
+  }
+  
+  h2 {
+    font-size: var(--font-size-h2);
+  }
+  
+  h3 {
+    font-size: var(--font-size-h3);
+  }
+  
+  h4 {
+    font-size: var(--font-size-h4);
+  }
+  
+  /* Navigation - Desktop Spacing */
+  .nav-list {
+    gap: var(--spacing-lg);
+  }
+  
+  /* Experience Items - Desktop Spacing */
+  .experience-item {
+    margin-bottom: var(--spacing-xxl);
+    padding-bottom: var(--spacing-xxl);
+  }
+  
+  .experience-category {
+    margin-bottom: var(--spacing-xxl);
+  }
+  
+  /* Art Items - Desktop Spacing */
+  .art-item {
+    padding: var(--spacing-xl);
+  }
+  
+  /* Tech Items - Desktop Spacing */
+  .tech-item {
+    padding: var(--spacing-xl);
+  }
+}

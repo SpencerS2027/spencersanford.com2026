@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asset Loader Test</title>
+</head>
+<body>
+  <h1>Asset Loader Test</h1>
+  
+  <div id="webp-support">WebP Support: <span id="webp-result">Testing...</span></div>
+  <div id="performance-metrics">
+    <p>Load Time: <span id="load-time">Calculating...</span>ms</p>
+    <p>Total Size: <span id="total-size">Calculating...</span>KB</p>
+  </div>
+  
+  <h2>Lazy Loading Test</h2>
+  <div style="height: 2000px;">Scroll down to see lazy loaded images</div>
+  
+  <img src="placeholder.jpg" loading="lazy" alt="Test image 1">
+  <img src="placeholder2.jpg" loading="lazy" alt="Test image 2">
+  
+  <script src="js/assets.js"></script>
+  
+  <script>
+    // Check WebP support after a short delay
+    setTimeout(() => {
+      const hasWebP = document.documentElement.classList.contains('webp');
+      const noWebP = document.documentElement.classList.contains('no-webp');
+      document.getElementById('webp-result').textContent = hasWebP ? 'Yes (webp class added)' : noWebP ? 'No (no-webp class added)' : 'Unknown';
+    }, 100);
+  </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deployment Verification Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+    }
+    .check-section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      background: #f9f9f9;
+    }
+    .check-item.pass {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+    }
+    .check-item.fail {
+      background: #f8d7da;
+      border-left: 4px solid #dc3545;
+    }
+    .check-item.warning {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+    }
+    .icon {
+      font-size: 24px;
+      margin-right: 10px;
+      min-width: 30px;
+    }
+    .check-text {
+      flex: 1;
+    }
+    .summary {
+      font-size: 18px;
+      font-weight: bold;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .summary.pass {
+      background: #d4edda;
+      color: #155724;
+    }
+    .summary.fail {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    button {
+      padding: 10px 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0052a3;
+    }
+    .details {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚀 Static Deployment Verification</h1>
+  
+  <button onclick="runChecks()">Run Verification Checks</button>
+  
+  <div id="summary"></div>
+  <div id="results"></div>
+
+  <script>
+    const checks = [];
+    
+    function addCheck(name, passed, message, details = '') {
+      checks.push({ name, passed, message, details });
+    }
+    
+    async function runChecks() {
+      checks.length = 0;
+      
+      // Check 1: Verify index.html exists at root
+      try {
+        const response = await fetch('../index.html');
+        addCheck(
+          'index.html at root',
+          response.ok,
+          response.ok ? 'index.html found at root level' : 'index.html not found at root',
+          `Status: ${response.status}`
+        );
+      } catch (e) {
+        addCheck('index.html at root', false, 'Failed to fetch index.html', e.message);
+      }
+      
+      // Check 2: Verify CSS files
+      const cssFiles = ['css/styles.css', 'css/responsive.css', 'css/critical.css'];
+      for (const file of cssFiles) {
+        try {
+          const response = await fetch(`../${file}`);
+          addCheck(
+            `CSS: ${file}`,
+            response.ok,
+            response.ok ? `${file} accessible` : `${file} not found`,
+            `Status: ${response.status}`
+          );
+        } catch (e) {
+          addCheck(`CSS: ${file}`, false, `Failed to fetch ${file}`, e.message);
+        }
+      }
+      
+      // Check 3: Verify JS files
+      const jsFiles = ['js/navigation.js', 'js/responsive.js', 'js/assets.js'];
+      for (const file of jsFiles) {
+        try {
+          const response = await fetch(`../${file}`);
+          addCheck(
+            `JS: ${file}`,
+            response.ok,
+            response.ok ? `${file} accessible` : `${file} not found`,
+            `Status: ${response.status}`
+          );
+        } catch (e) {
+          addCheck(`JS: ${file}`, false, `Failed to fetch ${file}`, e.message);
+        }
+      }
+      
+      // Check 4: Verify no absolute paths in HTML
+      try {
+        const response = await fetch('../index.html');
+        const html = await response.text();
+        const hasAbsolutePaths = /(?:href|src)=["'](?:https?:)?\/\//i.test(html);
+        addCheck(
+          'Relative paths only',
+          !hasAbsolutePaths,
+          hasAbsolutePaths ? 'Found absolute paths in HTML' : 'All paths are relative',
+          hasAbsolutePaths ? 'Check href and src attributes' : 'No absolute paths detected'
+        );
+      } catch (e) {
+        addCheck('Relative paths only', false, 'Failed to check paths', e.message);
+      }
+      
+      // Check 5: Verify no server-side code
+      try {
+        const response = await fetch('../index.html');
+        const html = await response.text();
+        const hasServerCode = /<\?php|<%|{{|{%/i.test(html);
+        addCheck(
+          'No server-side code',
+          !hasServerCode,
+          hasServerCode ? 'Found server-side code markers' : 'Pure static HTML',
+          hasServerCode ? 'Remove PHP, ASP, or template tags' : 'No server-side code detected'
+        );
+      } catch (e) {
+        addCheck('No server-side code', false, 'Failed to check for server code', e.message);
+      }
+      
+      // Check 6: Verify no build tools required
+      try {
+        const packageJson = await fetch('../package.json');
+        addCheck(
+          'No build tools',
+          !packageJson.ok,
+          packageJson.ok ? 'package.json found - may require build' : 'No package.json - no build needed',
+          packageJson.ok ? 'Verify no build step is required' : 'No npm dependencies'
+        );
+      } catch (e) {
+        addCheck('No build tools', true, 'No package.json found - no build needed', 'Static deployment ready');
+      }
+      
+      // Check 7: Verify JavaScript modules initialize properly
+      try {
+        const response = await fetch('../js/navigation.js');
+        const js = await response.text();
+        const hasDOMContentLoaded = /DOMContentLoaded/.test(js);
+        addCheck(
+          'JS initialization',
+          hasDOMContentLoaded,
+          hasDOMContentLoaded ? 'JavaScript initializes on DOMContentLoaded' : 'JavaScript may not initialize properly',
+          hasDOMContentLoaded ? 'Proper initialization pattern found' : 'Check initialization code'
+        );
+      } catch (e) {
+        addCheck('JS initialization', false, 'Failed to check JS initialization', e.message);
+      }
+      
+      // Check 8: Verify defer attribute on scripts
+      try {
+        const response = await fetch('../index.html');
+        const html = await response.text();
+        const scriptTags = html.match(/<script[^>]*src=[^>]*>/gi) || [];
+        const allDeferred = scriptTags.every(tag => /defer/i.test(tag));
+        addCheck(
+          'Scripts deferred',
+          allDeferred,
+          allDeferred ? 'All scripts have defer attribute' : 'Some scripts missing defer attribute',
+          `Found ${scriptTags.length} script tags`
+        );
+      } catch (e) {
+        addCheck('Scripts deferred', false, 'Failed to check script tags', e.message);
+      }
+      
+      displayResults();
+    }
+    
+    function displayResults() {
+      const resultsDiv = document.getElementById('results');
+      const summaryDiv = document.getElementById('summary');
+      
+      const passed = checks.filter(c => c.passed).length;
+      const total = checks.length;
+      const allPassed = passed === total;
+      
+      summaryDiv.className = `summary ${allPassed ? 'pass' : 'fail'}`;
+      summaryDiv.innerHTML = `
+        <div>${allPassed ? '✅' : '⚠️'} ${passed} / ${total} checks passed</div>
+        <div style="font-size: 14px; margin-top: 5px;">
+          ${allPassed ? 'Ready for static deployment!' : 'Some issues need attention'}
+        </div>
+      `;
+      
+      let html = '<div class="check-section"><h2>Verification Results</h2>';
+      
+      checks.forEach(check => {
+        const status = check.passed ? 'pass' : 'fail';
+        const icon = check.passed ? '✅' : '❌';
+        
+        html += `
+          <div class="check-item ${status}">
+            <div class="icon">${icon}</div>
+            <div class="check-text">
+              <strong>${check.name}</strong>
+              <div>${check.message}</div>
+              ${check.details ? `<div class="details">${check.details}</div>` : ''}
+            </div>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      
+      // Add recommendations
+      const failedChecks = checks.filter(c => !c.passed);
+      if (failedChecks.length > 0) {
+        html += '<div class="check-section"><h2>Recommendations</h2>';
+        failedChecks.forEach(check => {
+          html += `<div class="check-item warning">
+            <div class="icon">💡</div>
+            <div class="check-text">
+              <strong>${check.name}</strong>
+              <div>Review and fix this issue before deployment</div>
+            </div>
+          </div>`;
+        });
+        html += '</div>';
+      }
+      
+      resultsDiv.innerHTML = html;
+    }
+    
+    // Run checks on page load
+    window.addEventListener('load', runChecks);
+  </script>
+</body>
+</html>

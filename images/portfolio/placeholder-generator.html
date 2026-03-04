@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Image Placeholder Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+    }
+    .instructions {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .placeholder-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .placeholder-item {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    canvas {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background: #0052a3;
+    }
+    .filename {
+      font-family: monospace;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Portfolio Image Placeholder Generator</h1>
+  
+  <div class="instructions">
+    <h2>Instructions</h2>
+    <p>This page generates placeholder images for the portfolio website. Click the download buttons to save each image in both JPEG and WebP formats.</p>
+    <ol>
+      <li>Click "Download JPEG" for each image below</li>
+      <li>Use an online converter like <a href="https://squoosh.app" target="_blank">Squoosh</a> to convert JPEG to WebP</li>
+      <li>Or use the command: <code>cwebp -q 80 input.jpg -o output.webp</code></li>
+      <li>Place both files in the <code>images/portfolio/</code> directory</li>
+    </ol>
+    <p><strong>Note:</strong> These are simple placeholders. Replace with actual artwork before deployment.</p>
+  </div>
+
+  <div class="placeholder-grid" id="placeholderGrid"></div>
+
+  <script>
+    const placeholders = [
+      { name: 'sunset-cityscape', title: 'Sunset Cityscape', color: '#FF6B6B', textColor: '#FFFFFF' },
+      { name: 'abstract-geometry', title: 'Abstract Geometry', color: '#4ECDC4', textColor: '#FFFFFF' },
+      { name: 'portrait-study', title: 'Portrait Study', color: '#95E1D3', textColor: '#333333' },
+      { name: 'nature-landscape', title: 'Nature Landscape', color: '#F38181', textColor: '#FFFFFF' },
+      { name: 'urban-sketch', title: 'Urban Sketch', color: '#AA96DA', textColor: '#FFFFFF' },
+      { name: 'digital-collage', title: 'Digital Collage', color: '#FCBAD3', textColor: '#333333' }
+    ];
+
+    const grid = document.getElementById('placeholderGrid');
+
+    placeholders.forEach(placeholder => {
+      const item = document.createElement('div');
+      item.className = 'placeholder-item';
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 600;
+      
+      const ctx = canvas.getContext('2d');
+      
+      // Draw background
+      ctx.fillStyle = placeholder.color;
+      ctx.fillRect(0, 0, 800, 600);
+      
+      // Draw title
+      ctx.fillStyle = placeholder.textColor;
+      ctx.font = 'bold 48px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(placeholder.title, 400, 300);
+      
+      // Draw subtitle
+      ctx.font = '24px Arial';
+      ctx.fillText('Portfolio Placeholder', 400, 360);
+      
+      const title = document.createElement('h3');
+      title.textContent = placeholder.title;
+      
+      const filename = document.createElement('div');
+      filename.className = 'filename';
+      filename.textContent = `${placeholder.name}.jpg / ${placeholder.name}.webp`;
+      
+      const downloadJpeg = document.createElement('button');
+      downloadJpeg.textContent = 'Download JPEG';
+      downloadJpeg.onclick = () => {
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${placeholder.name}.jpg`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }, 'image/jpeg', 0.85);
+      };
+      
+      const downloadWebP = document.createElement('button');
+      downloadWebP.textContent = 'Download WebP';
+      downloadWebP.onclick = () => {
+        canvas.toBlob(blob => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${placeholder.name}.webp`;
+            a.click();
+            URL.revokeObjectURL(url);
+          } else {
+            alert('WebP not supported in this browser. Use JPEG and convert with Squoosh or cwebp.');
+          }
+        }, 'image/webp', 0.8);
+      };
+      
+      item.appendChild(title);
+      item.appendChild(canvas);
+      item.appendChild(filename);
+      item.appendChild(downloadJpeg);
+      item.appendChild(downloadWebP);
+      
+      grid.appendChild(item);
+    });
+  </script>
+</body>
+</html>
